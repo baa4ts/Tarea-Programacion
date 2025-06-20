@@ -1,0 +1,8 @@
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+CREATE TABLE IF NOT EXISTS usuario (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(25) NOT NULL,
+    gmail VARCHAR(40) NOT NULL UNIQUE,
+    passwordhas VARCHAR(255) NOT NULL
+);

@@ -1,0 +1,39 @@
+# Establecer todos los archivos de texto para usar LF (Unix) al hacer checkout
+* text=auto eol=lf
+
+# Archivos importantes que siempre deben tener LF
+*.js     text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.yml    text eol=lf
+*.env    text eol=lf
+*.sql    text eol=lf
+*.sh     text eol=lf
+*.html   text eol=lf
+*.css    text eol=lf
+*.ts     text eol=lf
+*.tsx    text eol=lf
+
+# Evitar convertir binarios o imágenes
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
+*.eot    binary
+*.svg    text
+
+# Configuración específica de node/Preact
+package-lock.json text eol=lf
+Dockerfile        text eol=lf
+
+# Excluir diferencias en entornos como VSCode o compiladores
+*.log     text eol=lf linguist-generated
+*.map     text eol=lf linguist-generated
+dist/*    text eol=lf linguist-generated
+
+# Configuración de permisos (opcional, útil en Linux)
+*.sh      text eol=lf

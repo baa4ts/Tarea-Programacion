@@ -1,0 +1,43 @@
+networks:
+  global:
+    driver: bridge
+
+services:
+
+  servicio-database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: servicio-database
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    networks:
+      - global
+    volumes:
+      - ./database/datos:/var/lib/postgresql/data
+      - ./database/configuracion/configuracion.sql:/docker-entrypoint-initdb.d/configuracion.sql:ro
+    mem_limit: 256m
+    cpus: 0.25
+
+  servicio-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: servicio-backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    networks:
+      - global
+    depends_on:
+      - servicio-database
+    mem_limit: 256m
+    cpus: 0.25
+
+volumes:
+  datos:
