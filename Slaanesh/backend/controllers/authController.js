@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const pool = require("../config/db");
+const pool = require("../config/db"); // Debe ser mysql2 pool con promesas
 
 function isEmail(input) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
@@ -16,9 +16,9 @@ exports.register = async (req, res) => {
 
     const query = `
       INSERT INTO usuario (name, gmail, passwordhas)
-      VALUES ($1, $2, $3)
+      VALUES (?, ?, ?)
     `;
-    await pool.query(query, [name, gmail, hash]);
+    await pool.execute(query, [name, gmail, hash]);
 
     res.status(201).json({ msg: "Usuario registrado" });
   } catch (err) {
@@ -35,14 +35,14 @@ exports.login = async (req, res) => {
     let query, values;
 
     if (isEmail(user)) {
-      query = `SELECT * FROM usuario WHERE gmail = $1`;
+      query = `SELECT * FROM usuario WHERE gmail = ?`;
       values = [user];
     } else {
-      query = `SELECT * FROM usuario WHERE name = $1`;
+      query = `SELECT * FROM usuario WHERE name = ?`;
       values = [user];
     }
 
-    const { rows } = await pool.query(query, values);
+    const [rows] = await pool.execute(query, values);
 
     if (rows.length === 0)
       return res.status(401).json({ msg: "Credenciales inválidas" });
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
     if (!valid) return res.status(401).json({ msg: "Contraseña incorrecta" });
 
     const token = jwt.sign({ id: userFound.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "10h",
     });
 
     res.json({ msg: "Login correcto", token });

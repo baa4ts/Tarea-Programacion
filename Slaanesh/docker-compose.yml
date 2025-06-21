@@ -3,22 +3,24 @@ networks:
     driver: bridge
 
 services:
-
   servicio-database:
-    build:
-      context: ./database
-      dockerfile: Dockerfile
+    image: mysql:8.0
     container_name: servicio-database
     restart: always
     env_file:
       - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "5432:5432"
+      - "3306:3306"
     networks:
       - global
     volumes:
-      - ./database/datos:/var/lib/postgresql/data
-      - ./database/configuracion/configuracion.sql:/docker-entrypoint-initdb.d/configuracion.sql:ro
+      - ./database/datos:/var/lib/mysql
+      - ./database/configuracion/configuracion.sql:/docker-entrypoint-initdb.d/init.sql:ro
     mem_limit: 256m
     cpus: 0.25
 
