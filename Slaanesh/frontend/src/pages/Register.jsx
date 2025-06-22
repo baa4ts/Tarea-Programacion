@@ -1,12 +1,8 @@
 import React from "react";
 
 // Componentes
-import { AuthForm } from "./../components/AuthForm";
+import { UserForm } from "../components/UserForm";
 
 export const Register = () => {
-  return (
-    <>
-      <AuthForm handle={false} />
-    </>
-  );
+  return <UserForm handle={false} />;
 };
