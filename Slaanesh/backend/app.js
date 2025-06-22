@@ -4,16 +4,14 @@ const express = require("express");
 const app = express();
 const authRoutes = require("./routes/authRoutes");
 
-// Primero aplicas CORS
 app.use(
   cors({
-    origin: "*", // o "*"
+    origin: "*",
   })
 );
 
 app.use(express.json());
 
-// Luego tus rutas
 app.use("/api", authRoutes);
 
 app.get("", (req, res) => {

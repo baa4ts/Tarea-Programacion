@@ -41,5 +41,21 @@ services:
     mem_limit: 256m
     cpus: 0.25
 
+  servicio-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: servicio-frontend
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - global
+    depends_on:
+      - servicio-database
+      - servicio-backend
+    mem_limit: 256m
+    cpus: 0.25
+
 volumes:
   datos:
