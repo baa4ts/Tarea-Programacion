@@ -68,3 +68,11 @@ exports.login = async (req, res) => {
     res.status(500).json({ msg: "Error en login" });
   }
 };
+
+exports.user = async (req, res) => {
+  const datos = {
+    username: "Rulasia",
+  };
+
+  res.status(200).json(datos);
+};
